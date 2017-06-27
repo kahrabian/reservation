@@ -1,0 +1,52 @@
+{% load static %}
+<!DOCTYPE html>
+<html class="no-js" lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>ورود • سیستم رزرواسون</title>
+    <meta name="description" content="">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static "css/reservation-v1.0.0.css" %}">
+
+    <script src="{% static "js/ie10-viewport-bug-workaround.js" %}"></script>
+
+</head>
+<body>
+<div class="row column align-center medium-6 large-4 container-padded">
+    <form class="log-in-form" method="post" action="{% url "authentication:login" %}">
+        {% csrf_token %}
+        <h4 class="text-center">ورود به پنل کاربری</h4>
+
+        {% if error %}
+            <div class="alert callout">
+                <p><i class="fi-alert"></i>{{ error }}</p>
+            </div>
+        {% endif %}
+
+        <label>ایمیل
+            <div class="input-group">
+                <span class="input-group-label" dir="ltr">@ut.ac.ir</span>
+                <input class="input-group-field" type="text" name="email" dir="ltr" required>
+            </div>
+        </label>
+        <label>رمز عبور
+            <input type="password" name="password" dir="ltr" required>
+        </label>
+        <p><input type="submit" class="button expanded" value="ورود"></p>
+        <p class="text-center">
+            اکانت کاربری ندارید؟ <a href="{% url "authentication:singup" %}">ثبت‌نام</a>
+        </p>
+    </form>
+</div>
+
+
+
+
+
+<script src="{% static "js/jquery.js" %}"></script>
+<script src="{% static "js/foundation.min.js" %}"></script>
+<script src="{% static "js/reservation-v1.0.0.js" %}"></script>
+</body>
+</html>

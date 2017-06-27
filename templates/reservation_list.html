@@ -1,0 +1,113 @@
+{% load static %}
+<!DOCTYPE html>
+<html class="no-js" lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>لیست غذاهای ۷ روز آینده • سیستم رزرواسون</title>
+    <meta name="description" content="">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static "css/reservation-v1.0.0.css" %}">
+
+    <script src="{% static "js/ie10-viewport-bug-workaround.js" %}"></script>
+
+</head>
+<body>
+
+<div class="topbar row">
+    <div class="columns topbar__title">
+        <a href="{% url "visage:home" %}">
+            <strong>سرویس رزرواسیون</strong>
+        </a>
+    </div>
+
+    <div class="columns shrink">
+        {% if is_admin %}
+        <a class="topbar-link" href="{% url "visage:add_self" %}" title="افزودن سلف">
+            <i class="fa fa-plus fa-middle"></i> افزودن سلف
+        </a>
+
+        <a class="topbar-link" href="{% url "visage:add_food" %}" title="افزودن غذا">
+            <i class="fa fa-plus fa-middle"></i> افزودن غذا
+        </a>
+
+        <a class="topbar-link" href="{% url "visage:schedule" %}" title="تقویم غذایی">
+            <i class="fa fa-calendar fa-middle"></i> تقویم غذایی
+        </a>
+        {% else %}
+        <a class="topbar-link" href="{% url "visage:charge_credit" %}" title="برای افزایش اعتبار کلیک کنید">
+            اعتبار: <span class="topbar-credit">{{ credit }}</span> تومان
+        </a>
+        {% endif %}
+        <a class="topbar-link topbar-logout" href="{% url "authentication:logout" %}" title="خروج از سیستم">
+            <i class="fa fa-sign-out"></i>
+            <span>خروج از سیستم</span>
+        </a>
+    </div>
+</div>
+
+<div class="row content">
+    <div class="small-12 columns">
+        <nav aria-label="You are here:" role="navigation">
+            <ul class="breadcrumbs">
+                <li><a href="{% url "visage:home" %}">صفحه اصلی</a></li>
+                <li>
+                    {{ sname }}
+                </li>
+            </ul>
+        </nav>
+
+        <h1>
+            {{ sname }} <small><span class="fa fa-info-circle fa--middle has-tip" data-tooltip aria-haspopup="true" data-disable-hover="false" tabindex="1" title="{{ description }}"></span></small>
+        </h1>
+        <p><strong>آدرس: </strong>{{ address }}</p>
+
+        {% if warn %}
+            <div class="warning callout">
+                <p><i class="fi-alert"></i>{{ warn }}</p>
+            </div>
+        {% endif %}
+        <form method="post" action="{% url "visage:reservation_list" sname %}">
+            {% csrf_token %}
+            <table class="hover reserve-list">
+                <thead>
+                <tr>
+                    <th width="200">تاریخ</th>
+                    <th>غذا</th>
+                    <th width="150">توضیحات</th>
+                    <th width="150">قیمت</th>
+                    <th width="150">سفارش داده شده</th>
+                    <th width="150">تعداد سفارش</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for choice in choices %}
+                    <tr>
+                        <td>{{ choice.0 }}</td>
+                        <td>{{ choice.1 }}</td>
+                        <td>{{ choice.2 }}</td>
+                        <td>{{ choice.3 }}</td>
+                        <td>{{ choice.4 }}</td>
+                        <td>
+                            <input type="number" name="{{ sname }}#{{ choice.1 }}#{{ choice.0 }}" min="0" value="0">
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+            <div class="row align-right">
+                <div class="columns small-12 medium-3 large-2">
+                    <button class="button expanded" type="submit">سفارش</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="{% static "js/jquery.js" %}"></script>
+<script src="{% static "js/foundation.min.js" %}"></script>
+<script src="{% static "js/reservation-v1.0.0.js" %}"></script>
+</body>
+</html>

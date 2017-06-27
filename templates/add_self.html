@@ -1,0 +1,106 @@
+{% load static %}
+<!DOCTYPE html>
+<html class="no-js" lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>افزودن سلف • سیستم رزرواسون</title>
+    <meta name="description" content="">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static "css/reservation-v1.0.0.css" %}">
+
+    <script src="{% static "js/ie10-viewport-bug-workaround.js" %}"></script>
+
+</head>
+<body>
+
+<div class="topbar row">
+    <div class="columns topbar__title">
+        <a href="{% url "visage:home" %}">
+            <strong>سرویس رزرواسیون</strong>
+        </a>
+    </div>
+
+    <div class="columns shrink">
+        {% if is_admin %}
+        <a class="topbar-link active" href="{% url "visage:add_self" %}" title="افزودن سلف">
+            <i class="fa fa-plus fa-middle"></i> افزودن سلف
+        </a>
+
+        <a class="topbar-link" href="{% url "visage:add_food" %}" title="افزودن غذا">
+            <i class="fa fa-plus fa-middle"></i> افزودن غذا
+        </a>
+
+        <a class="topbar-link" href="{% url "visage:schedule" %}" title="تقویم غذایی">
+            <i class="fa fa-calendar fa-middle"></i> تقویم غذایی
+        </a>
+        {% else %}
+        <a class="topbar-link" href="{% url "visage:charge_credit" %}" title="برای افزایش اعتبار کلیک کنید">
+            اعتبار: <span class="topbar-credit">{{ credit }}</span> تومان
+        </a>
+        {% endif %}
+        <a class="topbar-link topbar-logout" href="{% url "authentication:logout" %}" title="خروج از سیستم">
+            <i class="fa fa-sign-out"></i>
+            <span>خروج از سیستم</span>
+        </a>
+    </div>
+</div>
+
+<div class="row content">
+    <div class="small-12 columns">
+        <nav aria-label="You are here:" role="navigation">
+            <ul class="breadcrumbs">
+                <li><a href="{% url "visage:home" %}">صفحه اصلی</a></li>
+                <li>
+                    افزودن سلف
+                </li>
+            </ul>
+        </nav>
+
+        <h1>
+            افزودن سلف
+        </h1>
+
+        <form method="post" action="{% url "visage:add_self" %}">
+            {% csrf_token %}
+            <div class="row">
+                <div class="small-12 medium-3 large-2 columns">
+                    <label for="name" class="text-left middle">نام سلف</label>
+                </div>
+                <div class="small-12 medium-9 large-10 columns">
+                    <input type="text" id="name" name="name">
+                </div>
+            </div>
+            <div class="row">
+                <div class="small-12 medium-3 large-2 columns">
+                    <label for="address" class="text-left middle">آدرس سلف</label>
+                </div>
+                <div class="small-12 medium-9 large-10 columns">
+                    <input type="text" id="address" name="address">
+                </div>
+            </div>
+            <div class="row">
+                <div class="small-12 medium-3 large-2 columns">
+                    <label for="description" class="text-left middle">توضیحات</label>
+                </div>
+                <div class="small-12 medium-9 large-10 columns">
+                    <textarea rows="4" id="description" name="description"></textarea>
+                </div>
+            </div>
+
+            <div class="row align-right">
+                <div class="columns small-12 medium-3 large-2">
+                    <button class="button expanded" type="submit">افزودن</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="{% static "js/jquery.min.js" %}"></script>
+<script src="{% static "js/foundation.min.js" %}"></script>
+<script src="{% static "js/foundation-datepicker.min.js" %}"></script>
+<script src="{% static "js/reservation-v1.0.0.js" %}"></script>
+</body>
+</html>

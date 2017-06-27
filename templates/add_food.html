@@ -1,0 +1,107 @@
+{% load static %}
+<!DOCTYPE html>
+<html class="no-js" lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>افزودن غذا • سیستم رزرواسون</title>
+    <meta name="description" content="">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static "css/reservation-v1.0.0.css" %}">
+
+    <script src="{% static "js/ie10-viewport-bug-workaround.js" %}"></script>
+
+</head>
+<body>
+
+<div class="topbar row">
+    <div class="columns topbar__title">
+        <a href="{% url "visage:home" %}">
+            <strong>سرویس رزرواسیون</strong>
+        </a>
+    </div>
+
+    <div class="columns shrink">
+        {% if is_admin %}
+        <a class="topbar-link" href="{% url "visage:add_self" %}" title="افزودن سلف">
+            <i class="fa fa-plus fa-middle"></i> افزودن سلف
+        </a>
+
+        <a class="topbar-link active" href="{% url "visage:add_food" %}" title="افزودن غذا">
+            <i class="fa fa-plus fa-middle"></i> افزودن غذا
+        </a>
+
+        <a class="topbar-link" href="{% url "visage:schedule" %}" title="تقویم غذایی">
+            <i class="fa fa-calendar fa-middle"></i> تقویم غذایی
+        </a>
+        {% else %}
+        <a class="topbar-link" href="{% url "visage:charge_credit" %}" title="برای افزایش اعتبار کلیک کنید">
+            اعتبار: <span class="topbar-credit">{{ credit }}</span> تومان
+        </a>
+        {% endif %}
+        <a class="topbar-link topbar-logout" href="{% url "authentication:logout" %}" title="خروج از سیستم">
+            <i class="fa fa-sign-out"></i>
+            <span>خروج از سیستم</span>
+        </a>
+    </div>
+</div>
+
+<div class="row content">
+    <div class="small-12 columns">
+        <nav aria-label="You are here:" role="navigation">
+            <ul class="breadcrumbs">
+                <li><a href="{% url "visage:home" %}">صفحه اصلی</a></li>
+                <li>
+                    افزودن غذا
+                </li>
+            </ul>
+        </nav>
+
+        <h1>
+            افزودن غذا
+        </h1>
+
+        <form method="post" action="{% url "visage:add_food" %}">
+            {% csrf_token %}
+            <div class="row">
+                <div class="small-12 medium-6 columns">
+                    <label>
+                        نام غذا
+                        <input type="text" name="name">
+                    </label>
+                </div>
+                <div class="small-12 medium-6 columns">
+                    <label for="price">
+                        قیمت
+                    </label>
+                    <div class="input-group">
+                        <input class="input-group-field" id="price" type="number" min="0" name="price">
+                        <span class="input-group-label">تومان</span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="small-12 columns">
+                    <label>
+                        توضیحات
+                        <textarea rows="4" id="description" name="description"></textarea>
+                    </label>
+                </div>
+            </div>
+
+            <div class="row align-right">
+                <div class="columns small-12 medium-3 large-2">
+                    <button class="button expanded" type="submit">افزودن</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="{% static "js/jquery.min.js" %}"></script>
+<script src="{% static "js/foundation.min.js" %}"></script>
+<script src="{% static "js/foundation-datepicker.min.js" %}"></script>
+<script src="{% static "js/reservation-v1.0.0.js" %}"></script>
+</body>
+</html>
